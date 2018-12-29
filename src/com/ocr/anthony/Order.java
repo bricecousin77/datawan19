@@ -135,47 +135,82 @@ public class Order {
      * Run asking process for a menu.
      */
     public void runMenu() {
-        this.displayAvailableMenu();
-        int nbMenu ;
+        int nbMenu = askMenu();
+        switch (nbMenu) {
+            case 1:
+                askSide(true);
+                askDrink();
+                break;
+            case 2:
+                askSide(true);
+                break;
+            case 3:
+                askSide(false);
+                askDrink();
+                break;
+        }
+    }
+    /**
+     * Display a question about a category in the standard input, get response and display it
+     * @param category the category of the question
+     * @param responses available responses
+     */
+    public int askSomething(String category, String[] responses) {
+        System.out.println("Choix " + category);
+        for (int i = 1; i <= responses.length; i++) {
+            System.out.println(i + " - " + responses[i - 1]);
+        }
+        System.out.println("Que souhaitez vous comme " + category + "?");
+        int nbResponse;
+        boolean responseIsGood;
         do {
-            nbMenu = sc.nextInt();
-            this.displaySelectedMenu(nbMenu);
-            switch (nbMenu) {
-                case 1:
-                    displayAvailableSide(true);
-                    int nbSide;
-                    do {
-                        nbSide = sc.nextInt();
-                        displaySelectedSide(nbSide, true);
-                    } while (nbSide < 1 || nbSide > 3);
-                    displayAvailableDrink();
-                    int nbDrink;
-                    do {
-                        nbDrink = sc.nextInt();
-                        displaySelectedDrink(nbDrink);
-                    } while (nbDrink < 1 || nbDrink > 3);
-                    break;
-                case 2:
-                    displayAvailableSide(true);
-                    do {
-                        nbSide = sc.nextInt();
-                        displaySelectedSide(nbSide, true);
-                    } while (nbSide < 1 || nbSide > 3);
-                    break;
-                case 3:
-                    displayAvailableSide(false);
-                    do {
-                        nbSide = sc.nextInt();
-                        displaySelectedSide(nbSide, false);
-                    } while (nbSide < 1 || nbSide > 2);
-                    displayAvailableDrink();
-                    do {
-                        nbDrink = sc.nextInt();
-                        displaySelectedDrink(nbDrink);
-                    } while (nbDrink < 1 || nbDrink > 3);
-                    break;
+            nbResponse =sc.nextInt();
+            if (nbResponse >= 1 && nbResponse <= responses.length) {
+                responseIsGood = true;
+            } else responseIsGood = false;
+
+            if (responseIsGood == true) {
+                System.out.println("Vous avez choisi comme " + category + " : " + responses[nbResponse - 1]);
+            } else {
+                System.out.println("Vous n'avez pas choisi de " + category + " parmi les choix proposés");
             }
-        } while (nbMenu < 1 || nbMenu > 3);
+        } while (responseIsGood == false);
+        return nbResponse;
+    }
+    /**
+     * Display a question about menu in the standard input, get response and display it
+     */
+    public int askMenu() {
+        String[] menus = {"poulet", "boeuf", "végétarien"};
+        int nbMenu = askSomething("menu", menus);
+        return nbMenu;
     }
 
+    /**
+     * Display a question about side in the standard input, get response and display it
+     */
+    public void askSide(boolean allSidesEnable) {
+        if (allSidesEnable) {
+            String[] responsesAllSide = {"légumes frais", "frites", "riz"};
+            askSomething("accompagnement", responsesAllSide);
+        } else {
+            String[] responsesOnlyRice = {"riz", "pas de riz"};
+            askSomething("accompagnement", responsesOnlyRice);
+        }
+    }
+    /**
+     * Display a question about menu in the standard input, get response and display it
+     * @return the number of the selected menu
+     */
+    public int askMenu() {
+        String[] menus = {"poulet", "boeuf", "végétarien"};
+        return askSomething("menu", menus);
+    }
+    /**
+     * Display a question about drink in the standard input, get response and display it
+     */
+    public void askDrink() {
+        String[] responsesDrink = {"eau plate", "eau gazeuse", "soda"};
+        askSomething("boisson", responsesDrink);
+    }
 }
