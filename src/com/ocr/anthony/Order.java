@@ -182,8 +182,7 @@ public class Order {
      */
     public int askMenu() {
         String[] menus = {"poulet", "boeuf", "végétarien"};
-        int nbMenu = askSomething("menu", menus);
-        return nbMenu;
+        return askSomething("menu", menus);
     }
 
     /**
@@ -202,10 +201,7 @@ public class Order {
      * Display a question about menu in the standard input, get response and display it
      * @return the number of the selected menu
      */
-    public int askMenu() {
-        String[] menus = {"poulet", "boeuf", "végétarien"};
-        return askSomething("menu", menus);
-    }
+
     /**
      * Display a question about drink in the standard input, get response and display it
      */

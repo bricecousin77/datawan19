@@ -1,6 +1,9 @@
 package com.ocr.anthony;
 
+import java.util.Scanner;
+
 public class interaction {
+
     public static void askSomething(String category, String[] responses) {
         System.out.println("Choix " + category);
         for (int i = 1; i <= responses.length; i++)
@@ -8,6 +11,7 @@ public class interaction {
         System.out.println("Que souhaitez-vous comme " + category + "?");
         int nbResponse;
         boolean responseIsGood;
+        Scanner sc = new Scanner(System.in);
         do {
             nbResponse = sc.nextInt();
             responseIsGood = (nbResponse >= 1 && nbResponse <= responses.length);
