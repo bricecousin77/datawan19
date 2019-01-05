@@ -4,17 +4,20 @@ import java.util.Scanner;
 
 public class Order {
     Scanner sc = new Scanner(System.in);
+    String orderSummary = "";
     /**
      * Run asking process for several menus.
      */
     public void runMenus() {
         System.out.println("Combien souhaitez vous commander de menu ?");
         int menuQuantity = sc.nextInt();
-        int counter = 0;
-        while (counter < menuQuantity) {
+        orderSummary = "Résumé de votre commande :%n";
+        for (int i = 0; i < menuQuantity; i++) {
+            orderSummary += "Menu " + (i + 1) + ":%n";
             runMenu();
-            counter = counter + 1;
         }
+        System.out.println("");
+        System.out.println(String.format(orderSummary));
     }
 
     /**
@@ -157,24 +160,26 @@ public class Order {
      */
     public int askSomething(String category, String[] responses) {
         System.out.println("Choix " + category);
-        for (int i = 1; i <= responses.length; i++) {
+        for (int i = 1; i <= responses.length; i++)
             System.out.println(i + " - " + responses[i - 1]);
-        }
-        System.out.println("Que souhaitez vous comme " + category + "?");
+        System.out.println("Que souhaitez-vous comme " + category + "?");
         int nbResponse;
         boolean responseIsGood;
         do {
-            nbResponse =sc.nextInt();
-            if (nbResponse >= 1 && nbResponse <= responses.length) {
-                responseIsGood = true;
-            } else responseIsGood = false;
-
-            if (responseIsGood == true) {
-                System.out.println("Vous avez choisi comme " + category + " : " + responses[nbResponse - 1]);
+            nbResponse = sc.nextInt();
+            responseIsGood = (nbResponse >= 1 && nbResponse <= responses.length);
+            if (responseIsGood) {
+                String choice = "Vous avez choisi comme " + category + " : " + responses[nbResponse - 1];
+                orderSummary += choice + "%n";
+                System.out.println(choice);
             } else {
-                System.out.println("Vous n'avez pas choisi de " + category + " parmi les choix proposés");
+                boolean isVowel = "aeiouy".contains(Character.toString(category.charAt(0)));
+                if (isVowel)
+                    System.out.println("Vous n'avez pas choisi d'" + category + " parmi les choix proposés");
+                else
+                    System.out.println("Vous n'avez pas choisi de " + category + " parmi les choix proposés");
             }
-        } while (responseIsGood == false);
+        } while (!responseIsGood);
         return nbResponse;
     }
     /**
